@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="flex flex-col items-center mb-6">
           <div className="flex items-center">
             <span className="text-lg lg:text-xl font-bold">
-              SecondHand Market<span className="text-[#693AF8]">.</span>
+              SecondHand Market
             </span>
           </div>
           <p className="text-gray-600 mt-3 text-base lg:w-1/2">

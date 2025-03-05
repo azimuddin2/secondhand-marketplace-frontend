@@ -20,16 +20,22 @@ const Navbar = () => {
   const navOptions = (
     <div className="flex flex-col lg:flex-row items-center gap-3 w-full">
       <div className="flex items-center gap-3">
-        <Button variant="outline" className="rounded-full p-0 size-10">
+        <Button
+          variant="outline"
+          className="rounded-full p-0 size-10 cursor-pointer"
+        >
           <Heart />
         </Button>
         <Link href="/cart">
-          <Button variant="outline" className="rounded-full p-0 size-10">
+          <Button
+            variant="outline"
+            className="rounded-full p-0 size-10 cursor-pointer"
+          >
             <ShoppingCart />
           </Button>
         </Link>
         <Link href="/login">
-          <Button className="rounded">Login</Button>
+          <Button className="rounded cursor-pointer">Login</Button>
         </Link>
       </div>
     </div>
@@ -40,14 +46,14 @@ const Navbar = () => {
       <div className="max-w-screen-xl px-4 lg:px-6 flex justify-between items-center mx-auto h-16 lg:h-20">
         <Link href="/" className="flex items-center">
           <span className="text-lg lg:text-xl font-bold">
-            SecondHand Market<span className="text-[#693AF8]">.</span>
+            SecondHand Market
           </span>
         </Link>
 
         {/* Search Bar Centered for Desktop */}
-        <div className="hidden lg:flex flex-grow justify-center max-w-lg items-center space-x-2 bg-white p-2 rounded-lg shadow-md">
+        <div className="hidden lg:flex flex-grow justify-center max-w-lg items-center space-x-2 bg-white rounded border">
           <Select>
-            <SelectTrigger className="border-none w-[75%]">
+            <SelectTrigger className="border-none w-[75%] shadow-none">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent className="rounded-lg mt-1">
@@ -62,9 +68,9 @@ const Navbar = () => {
           <Input
             type="text"
             placeholder="Search here anything"
-            className="px-4 py-2 border-none bg-white w-full rounded focus:outline-none focus:ring-1 focus:ring-[#693AF8]"
+            className="px-4 py-2 m-0 shadow-none border-none bg-white w-full rounded rounded-r-none focus:outline-none focus:ring-1 focus:ring-[#693AF8]"
           />
-          <Button className="px-4 py-2 text-white rounded-full transition">
+          <Button className="px-4 text-white rounded rounded-l-none transition cursor-pointer">
             <Search />
           </Button>
         </div>
@@ -75,7 +81,7 @@ const Navbar = () => {
           className="lg:hidden p-0 size-10"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <Menu />
+          <Menu size={28} />
         </Button>
 
         {/* Desktop Navigation */}
