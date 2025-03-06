@@ -18,6 +18,8 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from './registerValidation';
+import { registerUser } from '@/services/Auth';
+import { toast } from 'sonner';
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +32,17 @@ const RegisterForm = () => {
   } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    try {
+      const res = await registerUser(data);
+      if (res?.success) {
+        toast.success(res?.message);
+        form.reset();
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return (
