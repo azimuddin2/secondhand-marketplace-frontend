@@ -14,18 +14,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema } from './loginValidation';
+import { registerSchema } from './registerValidation';
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [accept, setAccept] = useState(false);
   const form = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
   });
 
   const {
@@ -43,9 +40,9 @@ const LoginForm = () => {
           <Image src={logo} alt="Logo" width="80" height="80" />
         </Link>
         <div>
-          <h1 className="text-xl font-semibold">Login</h1>
+          <h1 className="text-xl font-semibold">Register</h1>
           <p className="font-extralight text-sm text-gray-500">
-            Enter your email address to login!
+            Join us today and start your journey!
           </p>
         </div>
       </div>
@@ -53,17 +50,26 @@ const LoginForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="mb-4">
+                <FormLabel className="text-[#0F0E0E]">Name</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} value={field.value || ''} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem className="mb-4">
                 <FormLabel className="text-[#0F0E0E]">Email</FormLabel>
                 <FormControl>
-                  <Input
-                    type="email"
-                    {...field}
-                    value={field.value || ''}
-                    className="bg-white"
-                  />
+                  <Input type="email" {...field} value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,7 +80,7 @@ const LoginForm = () => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="mb-3 relative">
+              <FormItem className="mb-4 relative">
                 <FormLabel className="text-[#0F0E0E]">Password</FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -82,7 +88,7 @@ const LoginForm = () => {
                       type={showPassword ? 'text' : 'password'}
                       {...field}
                       value={field.value || ''}
-                      className="bg-white pr-10"
+                      className="pr-10"
                     />
                     <Button
                       type="button"
@@ -103,36 +109,20 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex justify-between items-center mt-8 mb-2">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                onClick={() => setAccept((prev) => !prev)}
-                id="terms"
-                className="cursor-pointer"
-              />
-              <Label className="text-sm" htmlFor="terms">
-                Remember Me
-              </Label>
-            </div>
-            <span className="text-gray-500 text-sm">Forgot your password?</span>
-          </div>
-          <Button
-            disabled={accept === false}
-            type="submit"
-            className="w-full mt-2 cursor-pointer"
-          >
-            {isSubmitting ? 'Logging...' : 'Login'}
+
+          <Button type="submit" className="w-full mt-2 cursor-pointer">
+            {isSubmitting ? 'Registering...' : 'Register'}
           </Button>
         </form>
       </Form>
       <p className="text-sm text-gray-500 text-center mt-5">
-        Do not have any account?{' '}
-        <Link href="/register" className="text-primary font-medium">
-          Please Register
+        Already have an account?{' '}
+        <Link href="/login" className="text-primary font-medium">
+          Please Login
         </Link>
       </p>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
