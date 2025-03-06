@@ -10,7 +10,7 @@ const roleBasedPrivateRoutes = {
   admin: [/^\/admin/],
 };
 
-const middleware = async (request: NextRequest) => {
+export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   const user = await getCurrentUser();

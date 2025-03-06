@@ -1,7 +1,16 @@
 'use client';
 
 import { Button } from '../ui/button';
-import { Heart, Search, ShoppingCart, Menu } from 'lucide-react';
+import {
+  Heart,
+  Search,
+  ShoppingCart,
+  Menu,
+  User,
+  LayoutDashboard,
+  Store,
+  LogOut,
+} from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -13,9 +22,33 @@ import {
 import { Input } from '../ui/input';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useUser } from '@/context/UserContext';
+import { logout } from '@/services/Auth';
+import { usePathname, useRouter } from 'next/navigation';
+import { protectedRoutes } from '@/constants';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { user, setIsLoading } = useUser();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    setIsLoading(true);
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push('/');
+    }
+  };
 
   const navOptions = (
     <div className="flex flex-col lg:flex-row items-center gap-3 w-full">
@@ -34,9 +67,66 @@ const Navbar = () => {
             <ShoppingCart />
           </Button>
         </Link>
-        <Link href="/login">
-          <Button className="rounded cursor-pointer">Login</Button>
-        </Link>
+
+        {user ? (
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className="mx-auto w-10 h-10">
+                  <AvatarImage src={user?.image} />
+                  <AvatarFallback className="bg-primary text-white text-xl">
+                    {user?.name.slice(0, 1)}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="rounded-[10px] mt-4 w-80 mr-3 p-3">
+                <div>
+                  <Avatar className="mx-auto w-12 h-12">
+                    <AvatarImage src={user?.image} />
+                    <AvatarFallback className="bg-primary text-white text-2xl">
+                      {user?.name.slice(0, 1)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="text-center my-2">
+                    <h2 className="text-lg">{user?.name}</h2>
+                    <p className="text-sm text-gray-500">{user?.email}</p>
+                  </div>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                  <User />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+                <Link href={`${user?.role}/dashboard`}>
+                  <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                    <LayoutDashboard />
+                    <span>Dashboard</span>
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                  <Store />
+                  <span>My Shop</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="rounded-[5px] text-white bg-[#FF4D4F] cursor-pointer mt-2"
+                >
+                  <LogOut />
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        ) : (
+          <>
+            <Link href="/login">
+              <Button className="cursor-pointer" variant="outline">
+                Login
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

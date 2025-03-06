@@ -22,6 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from './loginValidation';
 import { loginUser } from '@/services/Auth';
 import { toast } from 'sonner';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,12 +35,22 @@ const LoginForm = () => {
     formState: { isSubmitting },
   } = form;
 
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirectPath');
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
       if (res?.success) {
         toast.success(res?.message);
         form.reset();
+
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push('/');
+        }
       } else {
         toast.error(res?.message);
       }
