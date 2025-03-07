@@ -1,14 +1,5 @@
 import { AppSidebar } from '@/components/modules/dashboard/sidebar/app-sidebar';
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
-import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
@@ -24,7 +15,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
-        <div className="min-h-[100vh] flex-1 rounded bg-muted/50 md:min-h-min p-4 pt-0 m-2">
+        <div className="min-h-[100vh] flex-1 rounded bg-muted/50 md:min-h-min p-4 m-2 mt-0">
           {children}
         </div>
       </SidebarInset>

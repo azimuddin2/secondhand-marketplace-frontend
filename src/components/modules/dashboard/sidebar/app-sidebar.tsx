@@ -1,16 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  Store,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings,
-  LayoutDashboard,
-} from 'lucide-react';
+import { Store, Settings, LayoutDashboard, Shield } from 'lucide-react';
 
 import {
   Sidebar,
@@ -26,79 +17,83 @@ import { NavUser } from './nav-user';
 import Link from 'next/link';
 import Logo from '@/assets/icons/logo.svg';
 import Image from 'next/image';
-
-const data = {
-  navMain: [
-    {
-      title: 'Dashboard',
-      url: '/user/dashboard',
-      icon: LayoutDashboard,
-      isActive: true,
-    },
-    {
-      title: 'Shop',
-      url: '/user/shop/products',
-      icon: Store,
-      items: [
-        {
-          title: 'Manage Products',
-          url: '/user/shop/products',
-        },
-        {
-          title: 'Manage Categories',
-          url: '/user/shop/category',
-        },
-        {
-          title: 'Manage Brands',
-          url: '/user/shop/brand',
-        },
-      ],
-    },
-
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings,
-      items: [
-        {
-          title: 'Profile',
-          url: '/profile',
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: 'Support',
-      url: '#',
-      icon: LifeBuoy,
-    },
-    {
-      title: 'Feedback',
-      url: '#',
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
-};
+import { useUser } from '@/context/UserContext';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
+
+  const navMain = [];
+
+  // User-only routes
+  if (user?.role === 'user') {
+    navMain.push(
+      {
+        title: 'Dashboard',
+        url: '/user/dashboard',
+        icon: LayoutDashboard,
+      },
+      {
+        title: 'Products',
+        url: '/user/listings',
+        icon: Store,
+        items: [
+          {
+            title: 'Manage Listings',
+            url: '/user/listings',
+          },
+        ],
+      },
+      {
+        title: 'Settings',
+        url: '#',
+        icon: Settings,
+        items: [
+          {
+            title: 'Profile',
+            url: '/user/profile',
+          },
+        ],
+      },
+    );
+  }
+
+  // Admin-only routes
+  if (user?.role === 'admin') {
+    navMain.push(
+      {
+        title: 'Dashboard',
+        url: `/admin/dashboard`,
+        icon: LayoutDashboard,
+      },
+      {
+        title: 'Admin Panel',
+        url: '/admin/dashboard',
+        icon: Shield,
+        items: [
+          {
+            title: 'Manage Users',
+            url: '/admin/users',
+          },
+          {
+            title: 'Site Settings',
+            url: '/admin/settings',
+          },
+        ],
+      },
+      {
+        title: 'Settings',
+        url: '#',
+        icon: Settings,
+        items: [
+          {
+            title: 'Profile',
+            url: '/profile',
+          },
+        ],
+      },
+    );
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -114,7 +109,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
