@@ -79,7 +79,7 @@ const Navbar = () => {
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="rounded-[10px] mt-4 w-80 mr-3 p-3">
+              <DropdownMenuContent className="rounded-[10px] mt-2 w-80 mr-3 p-3">
                 <div>
                   <Avatar className="mx-auto w-12 h-12">
                     <AvatarImage src={user?.image} />
@@ -121,9 +121,7 @@ const Navbar = () => {
         ) : (
           <>
             <Link href="/login">
-              <Button className="cursor-pointer" variant="outline">
-                Login
-              </Button>
+              <Button className="cursor-pointer">Login</Button>
             </Link>
           </>
         )}
