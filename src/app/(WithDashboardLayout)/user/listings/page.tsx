@@ -1,9 +1,9 @@
-import React from 'react';
+import ManageListings from '@/components/modules/listings';
 
 const AllListingsPage = () => {
   return (
     <div>
-      <h2>All Listings Page</h2>
+      <ManageListings />
     </div>
   );
 };

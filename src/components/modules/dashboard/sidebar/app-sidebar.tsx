@@ -45,7 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: 'Settings',
-        url: '#',
+        url: '/user/profile',
         icon: Settings,
         items: [
           {
