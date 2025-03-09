@@ -10,11 +10,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
@@ -23,20 +24,80 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import NMImageUploader from '@/components/ui/core/SMImageUploader';
 import ImagePreviewer from '@/components/ui/core/SMImageUploader/ImagePreviewer';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { listingSchema } from './listingValidation';
+import { useUser } from '@/context/UserContext';
+import { addListing } from '@/services/Listing';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const AddListingForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
-  const form = useForm();
+  const [uploading, setUploading] = useState<boolean>(false);
+  const { user } = useUser();
+  const router = useRouter();
+
+  const form = useForm({
+    resolver: zodResolver(listingSchema),
+  });
 
   const {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = () => {};
+  // Function to upload images to ImgBB
+  const uploadImages = async () => {
+    if (imageFiles.length === 0) return [];
+
+    setUploading(true);
+    const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+    const uploadPromises = imageFiles.map(async (file) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('key', apiKey || '');
+
+      const response = await fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      return data?.data?.url;
+    });
+
+    const uploadedUrls = await Promise.all(uploadPromises);
+    setUploading(false);
+    return uploadedUrls;
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const uploadedImageUrls = await uploadImages();
+      data.images = uploadedImageUrls;
+
+      const modifiedData = {
+        ...data,
+        price: parseFloat(data.price),
+        userID: user?.userId,
+      };
+
+      const res = await addListing(modifiedData);
+      console.log(res);
+      if (res?.success) {
+        toast.success(res?.message);
+        form.reset();
+        router.push('/user/listings');
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
 
   return (
-    <div className="bg-white rounded-xl flex-grow max-w-3xl p-5">
+    <div className="bg-white rounded-xl flex-grow max-w-3xl p-4 lg:p-5">
       <div className="flex items-center space-x-4 border-b mb-4 pb-3">
         <Image src={logo} alt="Logo" width="80" height="80" />
         <div>
@@ -46,7 +107,6 @@ const AddListingForm = () => {
           </p>
         </div>
       </div>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex justify-between items-center border-b py-3 my-5">
@@ -55,25 +115,21 @@ const AddListingForm = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Product Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value || ''}
-                      className="bg-white"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} value={field.value || ''} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
             <FormField
               control={form.control}
               name="price"
@@ -81,11 +137,7 @@ const AddListingForm = () => {
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value || ''}
-                      className="bg-white"
-                    />
+                    <Input {...field} value={field.value || ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,25 +146,22 @@ const AddListingForm = () => {
 
             <FormField
               control={form.control}
-              name="category"
+              name="condition"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Condition</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <FormControl className="bg-white">
+                    <FormControl className="w-full">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Product Category" />
+                        <SelectValue placeholder="Select Product Condition" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {/* {categories.map((category) => (
-                                                <SelectItem key={category?._id} value={category?._id}>
-                                                    {category?.name}
-                                                </SelectItem>
-                                            ))} */}
+                      <SelectItem value="new">New</SelectItem>
+                      <SelectItem value="used">Used</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -120,7 +169,6 @@ const AddListingForm = () => {
               )}
             />
           </div>
-
           <div className="my-5">
             <FormField
               control={form.control}
@@ -130,7 +178,7 @@ const AddListingForm = () => {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      className="h-36 resize-none bg-white"
+                      className="h-36 resize-none"
                       {...field}
                       value={field.value || ''}
                     />
@@ -140,7 +188,6 @@ const AddListingForm = () => {
               )}
             />
           </div>
-
           <div>
             <div className="flex justify-between items-center border-t border-b py-3 my-5">
               <p className="text-primary font-semibold text-xl">Images</p>
@@ -150,7 +197,7 @@ const AddListingForm = () => {
                 setImageFiles={setImageFiles}
                 setImagePreview={setImagePreview}
                 label="Upload Image"
-                className="w-fit mt-0"
+                className="w-full lg:w-fit mt-0"
               />
               <ImagePreviewer
                 className="flex flex-wrap gap-4"
@@ -160,9 +207,16 @@ const AddListingForm = () => {
               />
             </div>
           </div>
-
-          <Button type="submit" className="mt-5 w-full" disabled={isSubmitting}>
-            {isSubmitting ? 'Adding Listing.....' : 'Add Listing'}
+          <Button
+            type="submit"
+            className="mt-5 w-full cursor-pointer"
+            disabled={isSubmitting || uploading}
+          >
+            {uploading
+              ? 'Uploading Images...'
+              : isSubmitting
+                ? 'Adding Listing...'
+                : 'Add Listing'}
           </Button>
         </form>
       </Form>

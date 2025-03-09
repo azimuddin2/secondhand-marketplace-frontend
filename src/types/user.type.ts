@@ -9,5 +9,6 @@ export interface IUser {
   _id: string;
   createdAt: string;
   updatedAt: string;
+  userId?: string;
   __v: number;
 }

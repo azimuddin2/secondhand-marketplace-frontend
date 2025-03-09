@@ -23,6 +23,7 @@ import { loginSchema } from './loginValidation';
 import { loginUser } from '@/services/Auth';
 import { toast } from 'sonner';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useUser } from '@/context/UserContext';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,10 +39,12 @@ const LoginForm = () => {
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirectPath');
   const router = useRouter();
+  const { setIsLoading } = useUser();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
+      setIsLoading(true);
       if (res?.success) {
         toast.success(res?.message);
         form.reset();
