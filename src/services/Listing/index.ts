@@ -23,13 +23,16 @@ export const addListing = async (data: FieldValues) => {
   }
 };
 
-export const getAllListings = async () => {
+export const getAllListings = async (page?: string, limit?: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
-      next: {
-        tags: ['LISTING'],
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings?page=${page}&limit=${limit}`,
+      {
+        next: {
+          tags: ['LISTING'],
+        },
       },
-    });
+    );
 
     return res.json();
   } catch (error: any) {

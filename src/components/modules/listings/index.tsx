@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import DeleteConfirmationModal from '@/components/ui/core/SMModal/DeleteConfirmationModal';
+import SMPagination from '@/components/ui/core/SMPagination';
 import { SMTable } from '@/components/ui/core/SMTable';
 import {
   Tooltip,
@@ -10,7 +11,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { deleteListing } from '@/services/Listing';
-import { IListing } from '@/types';
+import { IListing, IMeta } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { Eye, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
@@ -21,9 +22,10 @@ import { toast } from 'sonner';
 
 type TListingsProps = {
   listings: IListing[];
+  meta: IMeta;
 };
 
-const ManageListings = ({ listings }: TListingsProps) => {
+const ManageListings = ({ listings, meta }: TListingsProps) => {
   const router = useRouter();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -94,11 +96,11 @@ const ManageListings = ({ listings }: TListingsProps) => {
                 <Eye
                   onClick={() =>
                     router.push(
-                      `/user/shop/products/view-product/${row.original._id}`,
+                      `/user/listings/view-listing/${row.original._id}`,
                     )
                   }
                   size={20}
-                  className="text-blue-500"
+                  className="text-blue-500 cursor-pointer"
                 />
               </TooltipTrigger>
               <TooltipContent>View</TooltipContent>
@@ -111,11 +113,11 @@ const ManageListings = ({ listings }: TListingsProps) => {
                 <FaRegEdit
                   onClick={() =>
                     router.push(
-                      `/user/shop/products/update-product/${row.original._id}`,
+                      `/user/listings/update-listing/${row.original._id}`,
                     )
                   }
                   size={20}
-                  className="text-green-500"
+                  className="text-green-500 cursor-pointer"
                 />
               </TooltipTrigger>
               <TooltipContent>Edit</TooltipContent>
@@ -128,7 +130,7 @@ const ManageListings = ({ listings }: TListingsProps) => {
                 <Trash2
                   onClick={() => handleDelete(row.original)}
                   size={20}
-                  className="text-red-500"
+                  className="text-red-500 cursor-pointer"
                 />
               </TooltipTrigger>
               <TooltipContent>Delete</TooltipContent>
@@ -151,6 +153,7 @@ const ManageListings = ({ listings }: TListingsProps) => {
         </Button>
       </div>
       <SMTable columns={columns} data={listings || []} />
+      <SMPagination totalPage={meta.totalPage} />
       <DeleteConfirmationModal
         name={selectedItem}
         isOpen={isModalOpen}
