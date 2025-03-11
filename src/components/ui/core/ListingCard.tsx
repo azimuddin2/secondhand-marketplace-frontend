@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../card';
 import Image from 'next/image';
 import { Button } from '../button';
-import { Heart } from 'lucide-react';
+import { CircleArrowRight, Heart } from 'lucide-react';
 import { IListing } from '@/types';
 import { currencyFormatter } from '@/lib/currencyFormatter';
 import { useRouter } from 'next/navigation';
@@ -57,7 +57,7 @@ const ListingCard = ({ listing }: { listing: IListing }) => {
             size="sm"
             className="w-32 rounded cursor-pointer"
           >
-            Buy Now
+            Buy Now <CircleArrowRight />
           </Button>
           <Button
             variant="outline"
