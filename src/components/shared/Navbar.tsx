@@ -146,10 +146,24 @@ const Navbar = () => {
             </SelectTrigger>
             <SelectContent className="rounded-lg mt-1">
               <SelectGroup>
-                <SelectItem value="foods">Foods</SelectItem>
                 <SelectItem value="electronics">Electronics</SelectItem>
-                <SelectItem value="fashion">Fashion</SelectItem>
-                <SelectItem value="books">Books</SelectItem>
+                <SelectItem value="fashion-apparel">
+                  Fashion & Apparel
+                </SelectItem>
+                <SelectItem value="home-furniture">Home & Furniture</SelectItem>
+                <SelectItem value="vehicles">Vehicles</SelectItem>
+                <SelectItem value="books-stationery">
+                  Books & Stationery
+                </SelectItem>
+                <SelectItem value="sports-fitness">Sports & Fitness</SelectItem>
+                <SelectItem value="baby-kids">Baby & Kids</SelectItem>
+                <SelectItem value="musical-instruments">
+                  Musical Instruments
+                </SelectItem>
+                <SelectItem value="health-beauty">Health & Beauty</SelectItem>
+                <SelectItem value="collectibles-antiques">
+                  Collectibles & Antiques
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -158,9 +172,11 @@ const Navbar = () => {
             placeholder="Search here anything"
             className="px-4 py-2 m-0 shadow-none border-none bg-white w-full rounded rounded-r-none focus:outline-none focus:ring-1 focus:ring-[#693AF8]"
           />
-          <Button className="px-4 text-white rounded rounded-l-none transition cursor-pointer">
-            <Search />
-          </Button>
+          <Link href="/listings">
+            <Button className="px-4 text-white rounded rounded-l-none transition cursor-pointer">
+              <Search />
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -186,10 +202,28 @@ const Navbar = () => {
               </SelectTrigger>
               <SelectContent className="rounded-lg mt-1">
                 <SelectGroup>
-                  <SelectItem value="foods">Foods</SelectItem>
                   <SelectItem value="electronics">Electronics</SelectItem>
-                  <SelectItem value="fashion">Fashion</SelectItem>
-                  <SelectItem value="books">Books</SelectItem>
+                  <SelectItem value="fashion-apparel">
+                    Fashion & Apparel
+                  </SelectItem>
+                  <SelectItem value="home-furniture">
+                    Home & Furniture
+                  </SelectItem>
+                  <SelectItem value="vehicles">Vehicles</SelectItem>
+                  <SelectItem value="books-stationery">
+                    Books & Stationery
+                  </SelectItem>
+                  <SelectItem value="sports-fitness">
+                    Sports & Fitness
+                  </SelectItem>
+                  <SelectItem value="baby-kids">Baby & Kids</SelectItem>
+                  <SelectItem value="musical-instruments">
+                    Musical Instruments
+                  </SelectItem>
+                  <SelectItem value="health-beauty">Health & Beauty</SelectItem>
+                  <SelectItem value="collectibles-antiques">
+                    Collectibles & Antiques
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -198,9 +232,11 @@ const Navbar = () => {
               placeholder="Search here anything"
               className="px-4 py-2 border-none bg-white w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#693AF8]"
             />
-            <Button className="px-4 py-2 text-white rounded-full transition">
-              <Search />
-            </Button>
+            <Link href="/listings">
+              <Button className="px-4 py-2 text-white rounded-full transition">
+                <Search />
+              </Button>
+            </Link>
           </div>
           {navOptions}
         </div>

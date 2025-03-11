@@ -1,13 +1,16 @@
+'use client';
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../card';
 import Image from 'next/image';
 import { Button } from '../button';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { IListing } from '@/types';
-import Link from 'next/link';
 import { currencyFormatter } from '@/lib/currencyFormatter';
+import { useRouter } from 'next/navigation';
 
 const ListingCard = ({ listing }: { listing: IListing }) => {
-  const { title, images, price, description, status, condition } = listing;
+  const router = useRouter();
+  const { title, images, price, status } = listing;
 
   return (
     <Card className="p-2 pb-5 shadow-none border-none rounded">
@@ -48,13 +51,18 @@ const ListingCard = ({ listing }: { listing: IListing }) => {
 
       <CardFooter className="block">
         <div className="flex gap-2 items-center justify-between">
-          <Button disabled={status === 'sold'} size="sm" className="w-32">
+          <Button
+            onClick={() => router.push(`/listings/${listing._id}`)}
+            disabled={status === 'sold'}
+            size="sm"
+            className="w-32 rounded cursor-pointer"
+          >
             Buy Now
           </Button>
           <Button
             variant="outline"
             size="sm"
-            className="w-8 h-8 p-0 flex items-center justify-center rounded-full"
+            className="w-8 h-8 p-0 flex items-center cursor-pointer justify-center rounded-full"
           >
             <Heart />
           </Button>
