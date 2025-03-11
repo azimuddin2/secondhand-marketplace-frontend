@@ -1,4 +1,4 @@
-import ManageListings from '@/components/modules/listings';
+import ManageListings from '@/components/modules/manage-listings';
 import { getAllListings } from '@/services/Listing';
 
 const AllListingsPage = async ({

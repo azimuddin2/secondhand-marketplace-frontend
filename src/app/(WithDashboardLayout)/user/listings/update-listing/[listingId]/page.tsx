@@ -1,4 +1,4 @@
-import UpdateListingForm from '@/components/modules/listings/UpdateListingForm';
+import UpdateListingForm from '@/components/modules/manage-listings/UpdateListingForm';
 import { getSingleListing } from '@/services/Listing';
 
 const UpdateListingPage = async ({

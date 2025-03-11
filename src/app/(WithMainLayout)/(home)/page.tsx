@@ -1,9 +1,9 @@
-import React from 'react';
+import FeaturedListings from '@/components/modules/home/FeaturedListings';
 
 const HomePage = () => {
   return (
     <div>
-      <h2>Home Page</h2>
+      <FeaturedListings />
     </div>
   );
 };

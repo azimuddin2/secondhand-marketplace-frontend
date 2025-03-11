@@ -1,4 +1,4 @@
-import AddListingForm from '@/components/modules/listings/AddListingForm';
+import AddListingForm from '@/components/modules/manage-listings/AddListingForm';
 
 const AddListingPage = () => {
   return (

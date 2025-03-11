@@ -44,6 +44,7 @@ const UpdateListingForm = ({ listing }: { listing: IListing }) => {
       title: listing?.title,
       price: listing?.price,
       condition: listing?.condition,
+      status: listing?.status,
       description: listing?.description,
     },
   });
@@ -120,22 +121,21 @@ const UpdateListingForm = ({ listing }: { listing: IListing }) => {
               Basic Information
             </p>
           </div>
-
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input {...field} value={field.value || ''} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input {...field} value={field.value || ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="price"
@@ -168,6 +168,31 @@ const UpdateListingForm = ({ listing }: { listing: IListing }) => {
                     <SelectContent>
                       <SelectItem value="new">New</SelectItem>
                       <SelectItem value="used">Used</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="w-full">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Product Condition" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="available">Available</SelectItem>
+                      <SelectItem value="sold">Sold</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
