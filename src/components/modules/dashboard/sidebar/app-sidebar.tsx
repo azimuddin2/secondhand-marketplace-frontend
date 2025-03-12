@@ -45,12 +45,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: 'Settings',
-        url: '/user/profile',
+        url: '/user/edit-profile',
         icon: Settings,
         items: [
           {
-            title: 'Profile',
-            url: '/user/profile',
+            title: 'Edit Profile',
+            url: '/user/edit-profile',
           },
         ],
       },

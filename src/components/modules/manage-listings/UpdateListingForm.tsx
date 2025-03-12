@@ -25,7 +25,7 @@ import { useState } from 'react';
 import NMImageUploader from '@/components/ui/core/SMImageUploader';
 import ImagePreviewer from '@/components/ui/core/SMImageUploader/ImagePreviewer';
 import { useUser } from '@/context/UserContext';
-import { addListing, updateListing } from '@/services/Listing';
+import { updateListing } from '@/services/Listing';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { IListing } from '@/types';
@@ -246,8 +246,8 @@ const UpdateListingForm = ({ listing }: { listing: IListing }) => {
             {uploading
               ? 'Uploading Images...'
               : isSubmitting
-                ? 'Adding Listing...'
-                : 'Add Listing'}
+                ? 'Updating Listing...'
+                : 'Update Listing'}
           </Button>
         </form>
       </Form>
