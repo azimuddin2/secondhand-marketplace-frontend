@@ -93,10 +93,12 @@ const Navbar = () => {
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="rounded-[5px] cursor-pointer">
-                  <User />
-                  <span>View Profile</span>
-                </DropdownMenuItem>
+                <Link href="/profile">
+                  <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                    <User />
+                    <span>View Profile</span>
+                  </DropdownMenuItem>
+                </Link>
                 <Link href={`${user?.role}/dashboard`}>
                   <DropdownMenuItem className="rounded-[5px] cursor-pointer">
                     <LayoutDashboard />

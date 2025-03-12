@@ -52,6 +52,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             title: 'Edit Profile',
             url: '/user/edit-profile',
           },
+          {
+            title: 'View Profile',
+            url: '/user/view-profile',
+          },
         ],
       },
     );
@@ -82,12 +86,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: 'Settings',
-        url: '#',
+        url: '/admin/edit-profile',
         icon: Settings,
         items: [
           {
-            title: 'Profile',
-            url: '/profile',
+            title: 'Edit Profile',
+            url: '/admin/edit-profile',
+          },
+          {
+            title: 'View Profile',
+            url: '/admin/view-profile',
           },
         ],
       },

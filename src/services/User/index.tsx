@@ -9,6 +9,9 @@ export const getAllUsers = async (page?: string, limit?: string) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/users?page=${page}&limit=${limit}`,
       {
+        headers: {
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
         next: {
           tags: ['USER'],
         },
@@ -24,6 +27,9 @@ export const getAllUsers = async (page?: string, limit?: string) => {
 export const getSingleUser = async (id: string) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/users/${id}`, {
+      headers: {
+        Authorization: (await cookies()).get('accessToken')!.value,
+      },
       next: {
         tags: ['USER'],
       },

@@ -21,41 +21,63 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NMImageUploader from '@/components/ui/core/SMImageUploader';
 import ImagePreviewer from '@/components/ui/core/SMImageUploader/ImagePreviewer';
 import { useUser } from '@/context/UserContext';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { cities } from '@/constants/cities';
-import { updateUser } from '@/services/User';
+import { getSingleUser, updateUser } from '@/services/User';
+import Spinner from '@/components/shared/Spinner';
 
 const EditProfileForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const [uploading, setUploading] = useState<boolean>(false);
-  const { user } = useUser();
   const router = useRouter();
+  const { user } = useUser();
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  console.log(userInfo);
 
   const form = useForm({
     defaultValues: {
-      name: user?.name || '',
-      email: user?.email || '',
-      phone: user?.phone || '',
-      city: user?.city || '',
-      address: user?.address || '',
-      eduction: user?.eduction || '',
-      jobTitle: user?.jobTitle || '',
-      company: user?.company || '',
-      portfolio: user?.portfolio || '',
-      linkedInProfile: user?.linkedInProfile || '',
-      facebookProfile: user?.facebookProfile || '',
+      name: userInfo?.name || '',
+      email: userInfo?.email || '',
+      phone: userInfo?.phone || '',
+      city: userInfo?.city || '',
+      address: userInfo?.address || '',
+      eduction: userInfo?.eduction || '',
+      jobTitle: userInfo?.jobTitle || '',
+      company: userInfo?.company || '',
+      portfolio: userInfo?.portfolio || '',
+      linkedInProfile: userInfo?.linkedInProfile || '',
+      facebookProfile: userInfo?.facebookProfile || '',
     },
   });
 
   const {
     formState: { isSubmitting },
   } = form;
+
+  // user data load
+  useEffect(() => {
+    if (user?.userId) {
+      getSingleUser(user.userId)
+        .then((data) => {
+          if (!data || data?.success === false) {
+            setError(data?.message || 'Failed to fetch user data');
+          } else {
+            setUserInfo(data.data);
+          }
+        })
+        .catch(() => setError('Failed to load profile.'))
+        .finally(() => setLoading(false));
+    }
+  }, [user?.userId]);
 
   // Function to upload images to ImgBB
   const uploadImages = async () => {
@@ -99,6 +121,10 @@ const EditProfileForm = () => {
       console.error(error);
     }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="bg-white rounded-xl flex-grow max-w-3xl p-4 lg:p-5">
