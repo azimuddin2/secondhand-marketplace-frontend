@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import DeleteConfirmationModal from '@/components/ui/core/SMModal/DeleteConfirmationModal';
 import SMPagination from '@/components/ui/core/SMPagination';
 import { SMTable } from '@/components/ui/core/SMTable';
@@ -10,37 +10,36 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { deleteListing } from '@/services/Listing';
-import { IListing, IMeta } from '@/types';
+import { deleteUser } from '@/services/User';
+import { IMeta, IUser } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
-import { Eye, Plus, Trash2 } from 'lucide-react';
+import { Eye, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-type TListingsProps = {
-  listings: IListing[];
+type TUsersProps = {
+  users: IUser[];
   meta: IMeta;
 };
 
-const ManageListings = ({ listings, meta }: TListingsProps) => {
+const UsersManagement = ({ users, meta }: TUsersProps) => {
   const router = useRouter();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const handleDelete = (data: IListing) => {
+  const handleDelete = (data: IUser) => {
     setSelectedId(data?._id);
-    setSelectedItem(data?.title);
+    setSelectedItem(data?.email);
     setModalOpen(true);
   };
 
   const handleDeleteConfirm = async () => {
     try {
       if (selectedId) {
-        const res = await deleteListing(selectedId);
+        const res = await deleteUser(selectedId);
         if (res.success) {
           toast.success(res.message);
           setModalOpen(false);
@@ -53,37 +52,47 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
     }
   };
 
-  const columns: ColumnDef<IListing>[] = [
+  const columns: ColumnDef<IUser>[] = [
     {
-      accessorKey: 'title',
-      header: 'Title',
-      cell: ({ row }) => (
-        <div className="flex items-center space-x-3">
-          <Image
-            src={row.original.images[0]}
-            alt={row.original.title}
-            width={40}
-            height={40}
-            className="w-8 h-8 rounded-full"
-          />
-          <span className="truncate">{row.original.title}</span>
-        </div>
-      ),
+      accessorKey: 'name',
+      header: 'Name',
+      cell: ({ row }) => <span className="truncate">{row.original.name}</span>,
     },
     {
-      accessorKey: 'condition',
-      header: 'Condition',
-      cell: ({ row }) => <span>{row.original.condition}</span>,
+      accessorKey: 'email',
+      header: 'Email',
+      cell: ({ row }) => <span>{row.original.email}</span>,
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Joined',
+      cell: ({ row }) => <span>{row.original.createdAt.slice(0, 10)}</span>,
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      cell: ({ row }) => (
+        <Badge className="capitalize text-blue-500 border border-blue-300 bg-blue-100 rounded-sm hover:bg-green-100">
+          {row.original.role}
+        </Badge>
+      ),
     },
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => <span>{row.original.status}</span>,
-    },
-    {
-      accessorKey: 'price',
-      header: 'Price',
-      cell: ({ row }) => <span>$ {row.original.price.toFixed(2)}</span>,
+      cell: ({ row }) => (
+        <div>
+          {row.original.status === 'in-progress' ? (
+            <Badge className="capitalize text-green-500 border border-green-300 bg-green-100 rounded-sm hover:bg-green-100">
+              {row.original.status}
+            </Badge>
+          ) : (
+            <Badge className="capitalize text-red-500 border border-red-300 bg-red-100 hover:bg-red-100 rounded-sm">
+              {row.original.status}
+            </Badge>
+          )}
+        </div>
+      ),
     },
     {
       accessorKey: 'action',
@@ -96,31 +105,14 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
                 <Eye
                   onClick={() =>
                     router.push(
-                      `/user/listings/view-listing/${row.original._id}`,
+                      `/admin/users-management/view-profile/${row.original._id}`,
                     )
                   }
                   size={20}
                   className="text-blue-500 cursor-pointer"
                 />
               </TooltipTrigger>
-              <TooltipContent>View</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <FaRegEdit
-                  onClick={() =>
-                    router.push(
-                      `/user/listings/update-listing/${row.original._id}`,
-                    )
-                  }
-                  size={20}
-                  className="text-green-500 cursor-pointer"
-                />
-              </TooltipTrigger>
-              <TooltipContent>Edit</TooltipContent>
+              <TooltipContent>View Profile</TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
@@ -144,15 +136,9 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-xl font-medium">Manage Listings</h2>
-        <Button
-          onClick={() => router.push('/user/listings/add-listing')}
-          className="cursor-pointer"
-        >
-          <Plus /> Add Listing
-        </Button>
+        <h2 className="text-xl font-medium">Users Management</h2>
       </div>
-      <SMTable columns={columns} data={listings || []} />
+      <SMTable columns={columns} data={users || []} />
       <SMPagination totalPage={meta?.totalPage} />
       <DeleteConfirmationModal
         name={selectedItem}
@@ -164,4 +150,4 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
   );
 };
 
-export default ManageListings;
+export default UsersManagement;

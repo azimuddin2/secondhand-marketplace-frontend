@@ -71,12 +71,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: 'Admin Panel',
-        url: '/admin/dashboard',
+        url: '/admin/users-management',
         icon: Shield,
         items: [
           {
             title: 'Manage Users',
-            url: '/admin/users',
+            url: '/admin/users-management',
           },
           {
             title: 'Site Settings',
