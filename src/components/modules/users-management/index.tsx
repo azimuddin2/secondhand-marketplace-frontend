@@ -5,35 +5,68 @@ import DeleteConfirmationModal from '@/components/ui/core/SMModal/DeleteConfirma
 import SMPagination from '@/components/ui/core/SMPagination';
 import { SMTable } from '@/components/ui/core/SMTable';
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { deleteUser } from '@/services/User';
+import { deleteUser, updateUserStatus } from '@/services/User';
 import { IMeta, IUser } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { Eye, Trash2 } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { RxUpdate } from 'react-icons/rx';
 
 type TUsersProps = {
   users: IUser[];
   meta: IMeta;
 };
 
+const statusOptions = [
+  { label: 'In-progress', key: 'in-progress' },
+  { label: 'Blocked', key: 'blocked' },
+];
+
 const UsersManagement = ({ users, meta }: TUsersProps) => {
   const router = useRouter();
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const handleDelete = (data: IUser) => {
-    setSelectedId(data?._id);
-    setSelectedItem(data?.email);
+    setSelectedId(data._id);
+    setSelectedItem(data.email);
     setModalOpen(true);
+  };
+
+  const handleStatusUpdate = async (userId: string, status: string) => {
+    const toastId = toast.loading('Updating status...');
+
+    const updateStatus = {
+      status,
+    };
+
+    try {
+      const res = await updateUserStatus(userId, updateStatus);
+      if (res.success) {
+        toast.success(res.message);
+        router.refresh();
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error('Failed to update status');
+    } finally {
+      toast.dismiss(toastId);
+    }
   };
 
   const handleDeleteConfirm = async () => {
@@ -43,12 +76,13 @@ const UsersManagement = ({ users, meta }: TUsersProps) => {
         if (res.success) {
           toast.success(res.message);
           setModalOpen(false);
+          router.refresh();
         } else {
           toast.error(res.message);
         }
       }
     } catch (err: any) {
-      console.error(err?.message);
+      toast.error(err?.message);
     }
   };
 
@@ -81,17 +115,22 @@ const UsersManagement = ({ users, meta }: TUsersProps) => {
       accessorKey: 'status',
       header: 'Status',
       cell: ({ row }) => (
-        <div>
-          {row.original.status === 'in-progress' ? (
-            <Badge className="capitalize text-green-500 border border-green-300 bg-green-100 rounded-sm hover:bg-green-100">
-              {row.original.status}
-            </Badge>
-          ) : (
-            <Badge className="capitalize text-red-500 border border-red-300 bg-red-100 hover:bg-red-100 rounded-sm">
-              {row.original.status}
-            </Badge>
-          )}
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center capitalize px-3 py-1 cursor-pointer border border-gray-500 text-gray-700 bg-white rounded-md hover:bg-gray-100 active:bg-gray-200 transition-all">
+            <RxUpdate className="mr-1" /> {row.original.status}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-40">
+            {statusOptions.map((option) => (
+              <DropdownMenuItem
+                key={option.key}
+                onClick={() => handleStatusUpdate(row.original._id, option.key)}
+                className="capitalize px-3 py-2 hover:bg-gray-200"
+              >
+                {option.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       ),
     },
     {

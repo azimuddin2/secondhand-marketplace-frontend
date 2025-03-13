@@ -79,6 +79,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             url: '/admin/users-management',
           },
           {
+            title: 'Manage Listings',
+            url: '/admin/listings',
+          },
+          {
             title: 'Site Settings',
             url: '/admin/settings',
           },

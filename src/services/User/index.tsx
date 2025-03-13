@@ -82,3 +82,25 @@ export const deleteUser = async (id: string): Promise<any> => {
     return Error(error);
   }
 };
+
+export const updateUserStatus = async (id: string, status: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/users/change-status/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
+        body: JSON.stringify(status),
+      },
+    );
+
+    revalidateTag('USER');
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};

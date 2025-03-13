@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useUser } from '@/context/UserContext';
 import { deleteListing } from '@/services/Listing';
 import { IListing, IMeta } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
@@ -26,6 +27,7 @@ type TListingsProps = {
 };
 
 const ManageListings = ({ listings, meta }: TListingsProps) => {
+  const { user } = useUser();
   const router = useRouter();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -96,7 +98,7 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
                 <Eye
                   onClick={() =>
                     router.push(
-                      `/user/listings/view-listing/${row.original._id}`,
+                      `/${user?.role}/listings/view-listing/${row.original._id}`,
                     )
                   }
                   size={20}
@@ -113,7 +115,7 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
                 <FaRegEdit
                   onClick={() =>
                     router.push(
-                      `/user/listings/update-listing/${row.original._id}`,
+                      `/${user?.role}/listings/update-listing/${row.original._id}`,
                     )
                   }
                   size={20}
@@ -145,12 +147,14 @@ const ManageListings = ({ listings, meta }: TListingsProps) => {
     <div>
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-xl font-medium">Manage Listings</h2>
-        <Button
-          onClick={() => router.push('/user/listings/add-listing')}
-          className="cursor-pointer"
-        >
-          <Plus /> Add Listing
-        </Button>
+        {user?.role === 'user' && (
+          <Button
+            onClick={() => router.push(`/user/listings/add-listing`)}
+            className="cursor-pointer"
+          >
+            <Plus /> Add Listing
+          </Button>
+        )}
       </div>
       <SMTable columns={columns} data={listings || []} />
       <SMPagination totalPage={meta?.totalPage} />
