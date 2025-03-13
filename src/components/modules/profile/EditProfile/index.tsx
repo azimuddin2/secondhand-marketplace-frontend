@@ -32,36 +32,49 @@ import { getSingleUser, updateUser } from '@/services/User';
 import Spinner from '@/components/shared/Spinner';
 
 const EditProfileForm = () => {
-  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
-  const [uploading, setUploading] = useState<boolean>(false);
-  const router = useRouter();
   const { user } = useUser();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  console.log(userInfo);
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
-      name: userInfo?.name || '',
-      email: userInfo?.email || '',
-      phone: userInfo?.phone || '',
-      city: userInfo?.city || '',
-      address: userInfo?.address || '',
-      eduction: userInfo?.eduction || '',
-      jobTitle: userInfo?.jobTitle || '',
-      company: userInfo?.company || '',
-      portfolio: userInfo?.portfolio || '',
-      linkedInProfile: userInfo?.linkedInProfile || '',
-      facebookProfile: userInfo?.facebookProfile || '',
+      name: '',
+      email: '',
+      phone: '',
+      city: '',
+      address: '',
+      education: '',
+      jobTitle: '',
+      company: '',
+      portfolio: '',
+      linkedInProfile: '',
+      facebookProfile: '',
     },
   });
 
-  const {
-    formState: { isSubmitting },
-  } = form;
+  // Reset form values when userInfo is available
+  useEffect(() => {
+    if (userInfo) {
+      form.reset({
+        name: userInfo.name || '',
+        email: userInfo.email || '',
+        phone: userInfo.phone || '',
+        city: userInfo.city || '',
+        address: userInfo.address || '',
+        education: userInfo.education || '',
+        jobTitle: userInfo.jobTitle || '',
+        company: userInfo.company || '',
+        portfolio: userInfo.portfolio || '',
+        linkedInProfile: userInfo.linkedInProfile || '',
+        facebookProfile: userInfo.facebookProfile || '',
+      });
+    }
+  }, [userInfo, form.reset]);
 
   // user data load
   useEffect(() => {
@@ -78,6 +91,10 @@ const EditProfileForm = () => {
         .finally(() => setLoading(false));
     }
   }, [user?.userId]);
+
+  const {
+    formState: { isSubmitting },
+  } = form;
 
   // Function to upload images to ImgBB
   const uploadImages = async () => {
@@ -113,7 +130,7 @@ const EditProfileForm = () => {
       if (res?.success) {
         toast.success(res?.message);
         form.reset();
-        router.push('/user/listings');
+        router.push(`/${user?.role}/view-profile`);
       } else {
         toast.error(res?.message);
       }
@@ -195,6 +212,7 @@ const EditProfileForm = () => {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <Select
+                      value={field.value || ''}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
@@ -246,10 +264,10 @@ const EditProfileForm = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
               <FormField
                 control={form.control}
-                name="eduction"
+                name="education"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Eduction</FormLabel>
+                    <FormLabel>Education</FormLabel>
                     <FormControl>
                       <Input {...field} value={field.value || ''} />
                     </FormControl>

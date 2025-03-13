@@ -73,7 +73,6 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar className="mx-auto w-10 h-10">
-                  <AvatarImage src={user?.image} />
                   <AvatarFallback className="bg-primary text-white text-xl">
                     {user?.name.slice(0, 1)}
                   </AvatarFallback>
@@ -82,7 +81,6 @@ const Navbar = () => {
               <DropdownMenuContent className="rounded-[10px] mt-2 w-80 mr-3 p-3">
                 <div>
                   <Avatar className="mx-auto w-12 h-12">
-                    <AvatarImage src={user?.image} />
                     <AvatarFallback className="bg-primary text-white text-2xl">
                       {user?.name.slice(0, 1)}
                     </AvatarFallback>
@@ -93,7 +91,7 @@ const Navbar = () => {
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <Link href="/profile">
+                <Link href={`/${user?.role}/view-profile`}>
                   <DropdownMenuItem className="rounded-[5px] cursor-pointer">
                     <User />
                     <span>View Profile</span>

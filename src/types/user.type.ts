@@ -5,11 +5,11 @@ export interface IUser {
   role: 'admin' | 'user';
   status: 'in-progress' | 'blocked';
   phone?: string;
-  image?: string;
+  images: string[];
   country?: string;
   city?: string;
   address?: string;
-  eduction?: string;
+  education?: string;
   jobTitle?: string;
   company?: string;
   portfolio?: string;

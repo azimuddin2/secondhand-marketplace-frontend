@@ -50,13 +50,16 @@ const ViewProfile = () => {
       <Card className="w-full max-w-3xl bg-white rounded-xl border-none">
         <CardHeader className="flex flex-col items-center">
           <Avatar className="w-24 h-24 bg-[#F9FAFB]">
-            <AvatarImage
-              src={userInfo?.images || '/default-avatar.png'}
-              alt="Profile"
-            />
-            <AvatarFallback className="text-4xl border">
-              {userInfo?.name?.charAt(0) || 'U'}
-            </AvatarFallback>
+            {userInfo?.images?.length ? (
+              <AvatarImage
+                src={userInfo?.images[0] || '/default-avatar.png'}
+                alt="Profile"
+              />
+            ) : (
+              <AvatarFallback className="text-4xl border">
+                {userInfo?.name?.charAt(0) || 'SM'}
+              </AvatarFallback>
+            )}
           </Avatar>
           <CardTitle className="mt-2 text-xl font-semibold">
             {userInfo?.name || 'Not Provided'}
@@ -75,71 +78,71 @@ const ViewProfile = () => {
           <div className=" p-5 grid grid-cols-1 bg-[#F9FAFB] rounded">
             <p className="flex items-center border-b py-3">
               <MdOutlinePhoneInTalk className="mr-2 text-lg" />
-              <strong>Phone:</strong>
+              <strong className="font-semibold">Phone:</strong>
               <span className="ml-1">{userInfo?.phone || 'Not Provided'}</span>
             </p>
             <p className="flex items-center border-b py-3">
               <FaCity className="mr-2" />
-              <strong>City: </strong>
+              <strong className="font-semibold">City: </strong>
               <span className="ml-1">{userInfo?.city || 'Not Provided'}</span>
             </p>
             <p className="flex border-b py-3">
               <IoLocationOutline className="mr-2 text-xl" />
-              <strong>Address:</strong>
+              <strong className="font-semibold">Address:</strong>
               <span className="ml-1">
                 {userInfo?.address || 'Not Provided'}
               </span>
             </p>
             <p className="flex items-center border-b py-3">
               <PiGraduationCapDuotone className="mr-2 text-lg" />
-              <strong>Education:</strong>
+              <strong className="font-semibold">Education:</strong>
               <span className="ml-1">
                 {userInfo?.education || 'Not Provided'}
               </span>
             </p>
             <p className="flex items-center border-b py-3">
               <MdOutlineWorkHistory className="mr-2" />
-              <strong>Job Title:</strong>
+              <strong className="font-semibold">Job Title:</strong>
               <span className="ml-1">
                 {userInfo?.jobTitle || 'Not Provided'}
               </span>
             </p>
             <p className="flex items-center border-b py-3">
               <MdHomeWork className="mr-2" />
-              <strong>Company:</strong>
+              <strong className="font-semibold">Company:</strong>
               <span className="ml-1">
                 {userInfo?.company || 'Not Provided'}
               </span>
             </p>
             <p className="flex items-center border-b py-3">
               <FaLinkSlash className="mr-2" />
-              <strong>Portfolio Link:</strong>
+              <strong className="font-semibold">Portfolio Link:</strong>
               <span className="ml-1">
                 {userInfo?.portfolio || 'Not Provided'}
               </span>
             </p>
             <p className="flex items-center border-b py-3">
               <FaLinkedin className="mr-2" />
-              <strong>LinkedIn Profile:</strong>
+              <strong className="font-semibold">LinkedIn Profile:</strong>
               <span>{userInfo?.linkedInProfile || 'Not Provided'}</span>
             </p>
             <p className="flex items-center border-b py-3">
               <FaFacebook className="mr-2" />
-              <strong>Facebook Profile:</strong>
+              <strong className="font-semibold">Facebook Profile:</strong>
               <span className="ml-1">
                 {userInfo?.facebookProfile || 'Not Provided'}
               </span>
             </p>
             <p className="flex items-center border-b py-3">
               <VscWorkspaceTrusted className="mr-2" />
-              <strong>Role:</strong>
+              <strong className="font-semibold">Role:</strong>
               <span className="ml-1 capitalize">
                 {userInfo?.role || 'User'}
               </span>
             </p>
             <p className="flex items-center py-3">
               <LuCalendarDays className="mr-2" />
-              <strong>Joined:</strong>
+              <strong className="font-semibold">Joined:</strong>
               <span className="ml-1">
                 {userInfo?.createdAt
                   ? new Date(userInfo.createdAt).toLocaleDateString()
