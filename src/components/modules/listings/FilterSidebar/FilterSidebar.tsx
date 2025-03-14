@@ -5,57 +5,88 @@ import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Filter, Star, Check, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Filter, Check, Star } from 'lucide-react';
 
-const FilterSidebar = () => {
-  const [price, setPrice] = useState([300]);
+const FilterSidebar = ({
+  setPriceRange,
+  setStockStatus,
+}: {
+  setPriceRange: (val: { min: number; max: number }) => void;
+  setStockStatus: (status: string | null) => void;
+}) => {
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [selectedStock, setSelectedStock] = useState<string | null>(null);
+
+  const handlePriceChange = () => {
+    setPriceRange({ min: minPrice, max: maxPrice });
+  };
+
+  const handleStockChange = (status: string) => {
+    const newStatus = selectedStock === status ? null : status;
+    setSelectedStock(newStatus);
+    setStockStatus(newStatus); // Update stock filter in parent
+  };
 
   return (
     <div>
-      {/* Mobile Filter Button */}
-      <div className="md:hidden fixed top-4 left-4">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Filter className="w-5 h-5" />
-              Filters
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-80 p-4">
-            <SidebarContent price={price} setPrice={setPrice} />
-          </SheetContent>
-        </Sheet>
-      </div>
-
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:block w-72 bg-white rounded sticky top-0 mt-2">
-        <div className="mb-5 flex flex-grow justify-center max-w-lg items-center space-x-2 bg-white rounded border">
-          <Input
-            type="text"
-            placeholder="Search here anything"
-            className="px-4 py-2 m-0 shadow-none border-none bg-white w-full rounded rounded-r-none focus:outline-none focus:ring-1 focus:ring-[#693AF8]"
-          />
-          <Button className="px-4 text-white rounded rounded-l-none transition cursor-pointer">
-            <Search />
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            variant="outline"
+            className="md:hidden flex items-center gap-2"
+          >
+            <Filter className="w-5 h-5" />
+            Filters
           </Button>
-        </div>
-        <SidebarContent price={price} setPrice={setPrice} />
+        </SheetTrigger>
+        <SheetContent side="left" className="w-80 p-4">
+          <SidebarContent
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            setMinPrice={setMinPrice}
+            setMaxPrice={setMaxPrice}
+            handlePriceChange={handlePriceChange}
+            selectedStock={selectedStock}
+            handleStockChange={handleStockChange}
+          />
+        </SheetContent>
+      </Sheet>
+
+      <aside className="hidden md:block w-72 bg-white rounded sticky top-0 mt-2 p-4">
+        <SidebarContent
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          setMinPrice={setMinPrice}
+          setMaxPrice={setMaxPrice}
+          handlePriceChange={handlePriceChange}
+          selectedStock={selectedStock}
+          handleStockChange={handleStockChange}
+        />
       </aside>
     </div>
   );
 };
 
 const SidebarContent = ({
-  price,
-  setPrice,
+  minPrice,
+  maxPrice,
+  setMinPrice,
+  setMaxPrice,
+  handlePriceChange,
+  selectedStock,
+  handleStockChange,
 }: {
-  price: number[];
-  setPrice: (val: number[]) => void;
+  minPrice: number;
+  maxPrice: number;
+  setMinPrice: (val: number) => void;
+  setMaxPrice: (val: number) => void;
+  handlePriceChange: () => void;
+  selectedStock: string | null;
+  handleStockChange: (status: string) => void;
 }) => {
   return (
     <div className="space-y-6">
-      {/* Price Filter */}
       <div>
         <h3 className="font-semibold text-lg flex items-center gap-2">
           <Filter className="w-5 h-5 text-gray-600" /> Filter By Price
@@ -63,27 +94,47 @@ const SidebarContent = ({
         <div className="flex items-center space-x-2 mt-2">
           <input
             type="number"
-            placeholder="Min"
+            value={minPrice}
+            onChange={(e) => setMinPrice(Number(e.target.value))}
             className="w-1/2 p-2 border rounded"
           />
           <span>-</span>
           <input
             type="number"
-            placeholder="Max"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(Number(e.target.value))}
             className="w-1/2 p-2 border rounded"
           />
         </div>
         <Slider
-          value={price}
-          onValueChange={setPrice}
+          value={[minPrice, maxPrice]}
+          onValueChange={([min, max]) => {
+            setMinPrice(min);
+            setMaxPrice(max);
+          }}
           max={1000}
           step={10}
           className="mt-4"
         />
+        <Button
+          onClick={handlePriceChange}
+          className="mt-2 w-full cursor-pointer"
+        >
+          Apply
+        </Button>
       </div>
+
+      <FilterSection
+        title="Stock Status"
+        options={['available', 'sold']}
+        selected={selectedStock}
+        onChange={handleStockChange}
+      />
 
       {/* Product Types */}
       <FilterSection
+        selected={selectedStock}
+        onChange={handleStockChange}
         title="Product Types"
         options={[
           'Electronics',
@@ -95,14 +146,8 @@ const SidebarContent = ({
           'Baby & Kids',
           'Musical Instruments',
           'Health & Beauty',
-          'Collectibles & Antiques',
+          'Collectibles ',
         ]}
-      />
-
-      {/* Brands */}
-      <FilterSection
-        title="Brands"
-        options={['HP', 'Apple', 'Dell', 'Asus', 'Canon']}
       />
 
       {/* Rating */}
@@ -124,12 +169,6 @@ const SidebarContent = ({
           ))}
         </div>
       </div>
-
-      {/* Availability */}
-      <FilterSection
-        title="Availability"
-        options={['In Stock', 'Pre Order', 'Upcoming']}
-      />
     </div>
   );
 };
@@ -137,9 +176,13 @@ const SidebarContent = ({
 const FilterSection = ({
   title,
   options,
+  selected,
+  onChange,
 }: {
   title: string;
   options: string[];
+  selected: string | null;
+  onChange: (status: string) => void;
 }) => (
   <div>
     <h3 className="font-semibold text-lg flex items-center gap-2">
@@ -148,7 +191,11 @@ const FilterSection = ({
     <div className="mt-2 space-y-2">
       {options.map((option) => (
         <label key={option} className="flex items-center gap-2 cursor-pointer">
-          <Checkbox id={option} />
+          <Checkbox
+            id={option}
+            checked={selected === option}
+            onCheckedChange={() => onChange(option)}
+          />
           <span>{option}</span>
         </label>
       ))}
