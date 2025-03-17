@@ -4,4 +4,5 @@ export const protectedRoutes = [
   '/admin/:page',
   '/user',
   '/user/:page',
+  '/listings/:id',
 ];
