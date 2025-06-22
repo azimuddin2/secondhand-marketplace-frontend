@@ -54,8 +54,9 @@ const ListingDetails = ({ listing }: { listing: IListing }) => {
           {images?.map((image, index) => (
             <button
               key={index}
-              className={`border-2 rounded-md p-1 ${selectedImage === image ? 'border-black' : 'border-gray-300'
-                }`}
+              className={`border-2 rounded-md p-1 ${
+                selectedImage === image ? 'border-black' : 'border-gray-300'
+              }`}
               onClick={() => setSelectedImage(image)}
             >
               <Image
@@ -132,7 +133,7 @@ const ListingDetails = ({ listing }: { listing: IListing }) => {
         </div>
         <div className="flex items-end justify-end">
           <Button
-            disabled={user?.email === undefined}
+            disabled={user?.email === undefined || user?.role === 'admin'}
             onClick={() => handleOrder(listing)}
             className="w-full mt-10 cursor-pointer"
           >

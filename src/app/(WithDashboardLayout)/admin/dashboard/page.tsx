@@ -1,11 +1,13 @@
-import React from 'react';
+import AdminDashboardChart from '@/components/modules/dashboard/admin';
+import DashboardOverview from '@/components/modules/dashboard/admin/DashboardOverview';
 
-const AdminDashboard = () => {
+const AdminDashboardPage = () => {
   return (
     <div>
-      <h2>Admin Dashboard</h2>
+      <DashboardOverview />
+      <AdminDashboardChart />
     </div>
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboardPage;

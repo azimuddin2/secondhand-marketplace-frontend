@@ -83,8 +83,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             url: '/admin/listings',
           },
           {
-            title: 'Site Settings',
-            url: '/admin/settings',
+            title: 'Manage Orders',
+            url: '/admin/manage-orders',
           },
         ],
       },
