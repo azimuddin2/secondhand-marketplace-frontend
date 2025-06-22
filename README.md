@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Secondhand Marketplace Web Application
 
-## Getting Started
+## 🚀 Frontend Development
 
-First, run the development server:
+## Overview
+The Secondhand Marketplace application is a user-friendly e-commerce platform with secure authentication, intuitive product management, and a seamless shopping experience. The application is designed to be responsive and visually appealing while maintaining strong security practices.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Technologies Used
+- **Frontend:** TypeScript, Next.js, Tailwind CSS.
+- **Authentication:** JWT
+- **Routing:** Next.js routing
+- **Form:** React Hook Form
+- **UI Components:** Shadcn UI
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
+### User Authentication & Authorization
+- **User Registration & Login:**
+  - Register with name, email, and password.
+  - User role: `user` & `admin`.
+  - Secure password hashing before storage.
+  - Login using email and password.
+- **JWT Authentication:**
+  - JWT tokens for session management.
+  - Tokens stored in cookies storage.
+- **Logout:**
+  - Clears authentication token on logout.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Public Pages
+#### Home Page
+- **Navigation Bar:**
+  - Logo, menu links, login buttons.
+- **Hero Section:**
+  - Highlight key features and special offers.
+  - product image carousel.
+- **Featured Products:**
+  - Showcase up to 6 top products.
+  - "View All" button navigates to the product listing.
+- **Additional Sections:**
+  - Company Overview, Testimonials, Image Gallery & Office Location.
+- **Footer:**
+  - Essential links, social media, and contact information.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Products Page
+- **Search & Filter Options:**
+  - Search by title, category.
+  - Filter by price range, category.
+- **Dynamic Product Display:**
+  - Search and filter results update in real-time.
+- **Product Cards:**
+  - Show product name, price, image, and "View Details" button.
 
-## Learn More
+#### Product Details
+- **Detailed View:**
+  - High-quality image and comprehensive product details.
 
-To learn more about Next.js, take a look at the following resources:
+#### About Page
+- Information about the shop and its mission - What We Offer - Why Choose Us - FAQ.**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Private Pages
+#### Cart & Checkout
+- **Cart Management:**
+  - Users can add and remove products.
+  - Quantity cannot exceed available stock.
+- **Order Summary:**
+  - Shows total price, user details, and product list.
+- **Order Confirmation:**
+  - "Order Now" button for purchase confirmation.
+- **Payment Integration:**
+  - Stripe payment gateways.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### User Dashboard
+- **Order Tracking:**
+  - View order history and statuses.
+- **Payment History:**
+  - View payment history and payment statuses.
+- **Add Review:**
+  - Add client review feedback option.
+- **Profile Edit:**
+  - Update personal details and default shipping address and image upload.
 
-## Deploy on Vercel
+#### Admin Dashboard
+- **Dashboard:**
+  - Admin access dashboard company full overview info.
+- **User Management:**
+  - Ability to status user accounts `In-progress` & `Blocked`.
+- **Product Management:**
+  - Add, edit, and delete products.
+- **Order Management:**
+  - Approve and update order statuses from "Pending" to "Shipping".
+- **Profile Edit:**
+  - Update personal details and default shipping address and image upload.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### UI/UX Enhancements
+- **Fully Responsive:**
+  - Works on all devices and screen sizes.
+- **Error Handling:**
+  - Friendly messages for login errors, duplicate emails, and stock issues.
+- **Loading Indicators:**
+  - Spinners/loaders during API requests.
+- **Toasts & Alerts:**
+  - Notifications for key actions like login, logout, and purchases.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Installation
+### Prerequisites
+- Node.js & npm installed
+
+## Deployment
+- Deployable on Vercel platforms.
+
+## 👨‍💻 Contributors
+- **[MD. AZIM UDDIN]**
+
+## License
+This project is licensed under the MIT License.
