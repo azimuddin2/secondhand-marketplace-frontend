@@ -8,7 +8,7 @@ const AllListingsPage = async ({
 }) => {
   const { page } = await searchParams;
 
-  const { data, meta } = await getAllListings(page, '1');
+  const { data, meta } = await getAllListings(page, '8');
 
   return (
     <div>

@@ -120,7 +120,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton size="lg" asChild>
               <Link href="/">
                 <Image src={Logo} alt="Logo" width={60} height={60} />
-                <h2 className="font-bold text-xl">NextMart</h2>
+                <h2 className="font-bold text-xl">SH Market</h2>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

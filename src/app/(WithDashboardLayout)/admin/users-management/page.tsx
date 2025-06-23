@@ -8,7 +8,7 @@ const UsersManagementPage = async ({
 }) => {
   const { page } = await searchParams;
 
-  const { data, meta } = await getAllUsers(page, '2');
+  const { data, meta } = await getAllUsers(page, '8');
 
   return (
     <div>

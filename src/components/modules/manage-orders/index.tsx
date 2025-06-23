@@ -13,6 +13,9 @@ import {
 import { ColumnDef } from '@tanstack/react-table';
 import { RxUpdate } from 'react-icons/rx';
 import { SMTable } from '@/components/ui/core/SMTable';
+import { toast } from 'sonner';
+import { updateOrderStatus } from '@/services/Order';
+import { useRouter } from 'next/navigation';
 
 type TOrdersProps = {
   orders: IOrder[];
@@ -26,6 +29,30 @@ const statusOptions = [
 ];
 
 const ManageOrders = ({ orders, meta }: TOrdersProps) => {
+  const router = useRouter();
+
+  const handleStatusUpdate = async (orderId: string, status: string) => {
+    const toastId = toast.loading('Updating status...');
+
+    const updateStatus = {
+      status,
+    };
+
+    try {
+      const res = await updateOrderStatus(orderId, updateStatus);
+      if (res.success) {
+        toast.success(res.message);
+        router.refresh();
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error('Failed to update status');
+    } finally {
+      toast.dismiss(toastId);
+    }
+  };
+
   const columns: ColumnDef<IOrder>[] = [
     {
       accessorKey: 'buyerEmail',
@@ -59,7 +86,7 @@ const ManageOrders = ({ orders, meta }: TOrdersProps) => {
             {statusOptions.map((option) => (
               <DropdownMenuItem
                 key={option.key}
-                // onClick={() => handleStatusUpdate(row.original._id, option.key)}
+                onClick={() => handleStatusUpdate(row.original._id, option.key)}
                 className="capitalize px-3 py-2 hover:bg-gray-200"
               >
                 {option.label}

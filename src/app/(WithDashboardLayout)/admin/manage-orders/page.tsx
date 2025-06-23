@@ -8,8 +8,7 @@ const ManageOrdersPage = async ({
 }) => {
   const { page } = await searchParams;
 
-  const { data, meta } = await getAllOrders(page, '2');
-  console.log(data);
+  const { data, meta } = await getAllOrders(page, '8');
 
   return (
     <div>

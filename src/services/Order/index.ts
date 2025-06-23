@@ -42,3 +42,45 @@ export const getAllOrders = async (page?: string, limit?: string) => {
     return Error(error);
   }
 };
+
+export const getOrdersByEmail = async (email?: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/orders/my-orders?email=${email}`,
+      {
+        headers: {
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
+        next: {
+          tags: ['ORDER'],
+        },
+      },
+    );
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateOrderStatus = async (id: string, status: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/orders/change-status/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
+        body: JSON.stringify(status),
+      },
+    );
+
+    revalidateTag('ORDER');
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
