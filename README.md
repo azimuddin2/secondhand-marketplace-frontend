@@ -3,7 +3,7 @@
 ## 🚀 Frontend Development
 
 ## Overview
-The Secondhand Marketplace application is a user-friendly e-commerce platform with secure authentication, intuitive product management, and a seamless shopping experience. The application is designed to be responsive and visually appealing while maintaining strong security practices.
+The Secondhand Marketplace application is a user-friendly e-commerce platform with secure authentication, intuitive Listing management, and a seamless shopping experience. The application is designed to be responsive and visually appealing while maintaining strong security practices.
 
 ## 🛠️ Technologies Used
 - **Frontend:** TypeScript, Next.js, Tailwind CSS.
@@ -31,38 +31,32 @@ The Secondhand Marketplace application is a user-friendly e-commerce platform wi
   - Logo, menu links, login buttons.
 - **Hero Section:**
   - Highlight key features and special offers.
-  - product image carousel.
-- **Featured Products:**
-  - Showcase up to 6 top products.
-  - "View All" button navigates to the product listing.
+  - Listing image carousel.
+- **Featured Listings:**
+  - Showcase up to 6 top Listings.
+  - "View All" button navigates to the Listing listing.
 - **Additional Sections:**
   - Company Overview, Testimonials, Image Gallery & Office Location.
 - **Footer:**
   - Essential links, social media, and contact information.
 
-#### Products Page
+#### Listings Page
 - **Search & Filter Options:**
   - Search by title, category.
   - Filter by price range, category.
-- **Dynamic Product Display:**
+- **Dynamic Listing Display:**
   - Search and filter results update in real-time.
-- **Product Cards:**
-  - Show product name, price, image, and "View Details" button.
+- **Listing Cards:**
+  - Show Listing name, price, image, and "View Details" button.
 
-#### Product Details
+#### Listing Details
 - **Detailed View:**
-  - High-quality image and comprehensive product details.
+  - High-quality image and comprehensive Listing details.
 
 #### About Page
 - Information about the shop and its mission - What We Offer - Why Choose Us - FAQ.**
 
 ### Private Pages
-#### Cart & Checkout
-- **Cart Management:**
-  - Users can add and remove products.
-  - Quantity cannot exceed available stock.
-- **Order Summary:**
-  - Shows total price, user details, and product list.
 - **Order Confirmation:**
   - "Order Now" button for purchase confirmation.
 - **Payment Integration:**
@@ -83,8 +77,8 @@ The Secondhand Marketplace application is a user-friendly e-commerce platform wi
   - Admin access dashboard company full overview info.
 - **User Management:**
   - Ability to status user accounts `In-progress` & `Blocked`.
-- **Product Management:**
-  - Add, edit, and delete products.
+- **Listing Management:**
+  - Add, edit, and delete Listings.
 - **Order Management:**
   - Approve and update order statuses from "Pending" to "Shipping".
 - **Profile Edit:**

@@ -1,7 +1,13 @@
 'use client';
 
 import * as React from 'react';
-import { Store, Settings, LayoutDashboard, Shield } from 'lucide-react';
+import {
+  Store,
+  Settings,
+  LayoutDashboard,
+  Shield,
+  SendToBack,
+} from 'lucide-react';
 
 import {
   Sidebar,
@@ -28,9 +34,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   if (user?.role === 'user') {
     navMain.push(
       {
-        title: 'Dashboard',
-        url: '/user/dashboard',
-        icon: LayoutDashboard,
+        title: 'My Order',
+        url: '/user/my-order',
+        icon: SendToBack,
       },
       {
         title: 'Products',

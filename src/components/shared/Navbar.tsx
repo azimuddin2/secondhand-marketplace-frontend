@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   Store,
   LogOut,
+  SendToBack,
 } from 'lucide-react';
 import {
   Select,
@@ -33,7 +34,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -97,16 +98,33 @@ const Navbar = () => {
                     <span>View Profile</span>
                   </DropdownMenuItem>
                 </Link>
-                <Link href={`${user?.role}/dashboard`}>
-                  <DropdownMenuItem className="rounded-[5px] cursor-pointer">
-                    <LayoutDashboard />
-                    <span>Dashboard</span>
-                  </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem className="rounded-[5px] cursor-pointer">
-                  <Store />
-                  <span>My Shop</span>
-                </DropdownMenuItem>
+
+                {user?.role === 'admin' ? (
+                  <>
+                    <Link href={`${user?.role}/dashboard`}>
+                      <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                        <LayoutDashboard />
+                        <span>Dashboard</span>
+                      </DropdownMenuItem>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href={`${user?.role}/my-order`}>
+                      <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                        <LayoutDashboard />
+                        <span>Dashboard</span>
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link href={`${user?.role}/my-order`}>
+                      <DropdownMenuItem className="rounded-[5px] cursor-pointer">
+                        <SendToBack />
+                        <span>My Order</span>
+                      </DropdownMenuItem>
+                    </Link>
+                  </>
+                )}
+
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={handleLogout}
