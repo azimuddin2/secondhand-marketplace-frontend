@@ -8,7 +8,7 @@ const ContactInfo = () => {
   return (
     <div className="max-w-screen-xl mx-auto px-3 lg:px-5 my-12">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card className="rounded-2xl p-5">
+        <Card className="rounded-2xl px-5">
           <CardContent className="py-6 px-4 flex flex-col gap-2">
             <Image src={havingQueriesImg} alt="Having Queries" />
             <h3 className="text-lg font-semibold mt-2">Having Queries?</h3>
@@ -18,7 +18,7 @@ const ContactInfo = () => {
             </p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl p-5">
+        <Card className="rounded-2xl px-5">
           <CardContent className="py-6 px-4 flex flex-col gap-2">
             <Image src={phoneImg} alt="Having Queries" />
             <h3 className="text-lg font-semibold mt-2">Call Us Today</h3>
@@ -28,7 +28,7 @@ const ContactInfo = () => {
             </p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl p-5">
+        <Card className="rounded-2xl px-5">
           <CardContent className="py-6 px-4 flex flex-col gap-2">
             <Image src={locationImg} alt="Having Queries" />
             <h3 className="text-lg font-semibold mt-2">Locate Us</h3>

@@ -3,11 +3,14 @@
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/UserContext';
 import { currencyFormatter } from '@/lib/currencyFormatter';
+import { addOrder } from '@/services/Order';
 import { IListing } from '@/types';
 import { CircleArrowRight, Minus, Plus, Star } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { toast } from 'sonner';
 
 const ListingDetails = ({ listing }: { listing: IListing }) => {
   const { user } = useUser();
@@ -15,23 +18,31 @@ const ListingDetails = ({ listing }: { listing: IListing }) => {
   const [selectedImage, setSelectedImage] = useState(listing.images[0]);
   const [quantity, setQuantity] = useState<number>(1);
   const [isReadMore, setIsReadMore] = useState<boolean>(true);
+  const router = useRouter();
 
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
 
-  const handleOrder: SubmitHandler<FieldValues> = (data) => {
-    const modifiedData = {
-      sellerId: data.userID,
-      buyerId: user?.userId,
-      buyerEmail: user?.email,
-      itemId: data._id,
-      itemTitle: data.title,
-      price: data.price,
-    };
-    console.log(modifiedData);
-
+  const handleOrder: SubmitHandler<FieldValues> = async (data) => {
     try {
+      const modifiedData = {
+        sellerId: data.userID,
+        buyerId: user?.userId,
+        buyerEmail: user?.email,
+        itemId: data._id,
+        itemTitle: data.title,
+        price: parseFloat(data.price),
+      };
+
+      const res = await addOrder(modifiedData);
+      console.log(res);
+      if (res?.success) {
+        toast.success(res?.message);
+        // router.push('/user/listings');
+      } else {
+        toast.error(res?.message);
+      }
     } catch (error: any) {
       console.error(error);
     }
