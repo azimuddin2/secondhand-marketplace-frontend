@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 
 const Offers = () => {
   return (
-    <div className="max-w-screen-xl mx-auto px-3 lg:px-5">
+    <div className="max-w-screen-xl mx-auto px-3 lg:px-5 my-12">
       <div
         className={`${styles.banner} border-2 border-white rounded-3xl my-6 lg:flex lg:flex-row-reverse items-center justify-center p-5 lg:py-0 lg:px-12`}
       >

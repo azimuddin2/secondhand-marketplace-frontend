@@ -9,10 +9,10 @@ const HomePage = () => {
   return (
     <div>
       <HeroSection />
-      <FeaturedListings />
       <Categories />
-      <Brand />
+      <FeaturedListings />
       <ContactInfo />
+      <Brand />
       <Offers />
     </div>
   );

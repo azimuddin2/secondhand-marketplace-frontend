@@ -21,7 +21,7 @@ import {
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import Link from 'next/link';
-import Logo from '@/assets/icons/logo.svg';
+import Logo from '@/assets/images/logo.png';
 import Image from 'next/image';
 import { useUser } from '@/context/UserContext';
 
@@ -119,8 +119,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/">
-                <Image src={Logo} alt="Logo" width={60} height={60} />
-                <h2 className="font-bold text-xl">SH Market</h2>
+                <Image src={Logo} alt="Logo" width={30} height={30} />
+                <h2 className="font-bold text-xl">SH-Market</h2>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

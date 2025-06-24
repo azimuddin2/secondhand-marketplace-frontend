@@ -1,18 +1,9 @@
-import ManageListings from '@/components/modules/manage-listings';
-import { getAllListings } from '@/services/Listing';
+import MyListings from '@/components/modules/manage-listings/MyListings';
 
-const AllListingsPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ page: string }>;
-}) => {
-  const { page } = await searchParams;
-
-  const { data, meta } = await getAllListings(page, '8');
-
+const AllListingsPage = async () => {
   return (
     <div>
-      <ManageListings listings={data} meta={meta} />
+      <MyListings />
     </div>
   );
 };

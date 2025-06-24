@@ -57,6 +57,26 @@ export const getSingleListing = async (id: string) => {
   }
 };
 
+export const getListingsByEmail = async (email?: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings?email=${email}`,
+      {
+        headers: {
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
+        next: {
+          tags: ['LISTING'],
+        },
+      },
+    );
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 export const updateListing = async (
   id: string,
   data: FieldValues,

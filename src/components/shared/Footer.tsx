@@ -3,6 +3,7 @@ import Image from 'next/image';
 import facebookSvg from '@/assets/icons/facebook.svg';
 import instagramSvg from '@/assets/icons/Instagram.svg';
 import xSvg from '@/assets/icons/x.svg';
+import logo from '@/assets/images/logo.png';
 
 const Footer = () => {
   const navLinks = [
@@ -26,7 +27,8 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto px-4 text-center">
         <div className="flex flex-col items-center mb-6">
           <div className="flex items-center">
-            <span className="text-lg lg:text-xl font-bold">
+            <Image src={logo} alt="Logo" width="30" height="30" />
+            <span className="text-lg lg:text-xl font-bold ms-1">
               SecondHand Market
             </span>
           </div>

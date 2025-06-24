@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import logo from '@/assets/icons/logo.svg';
+import logo from '@/assets/images/logo.png';
 import {
   Form,
   FormControl,
@@ -100,7 +100,7 @@ const AddListingForm = () => {
   return (
     <div className="bg-white rounded-xl flex-grow max-w-3xl p-4 lg:p-5">
       <div className="flex items-center space-x-4 border-b mb-4 pb-3">
-        <Image src={logo} alt="Logo" width="80" height="80" />
+        <Image src={logo} alt="Logo" width="50" height="50" />
         <div>
           <h1 className="text-2xl font-semibold">Add Listing</h1>
           <p className="font-extralight text-sm text-gray-700">

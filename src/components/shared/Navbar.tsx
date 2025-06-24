@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 import {
   Heart,
   Search,
-  ShoppingCart,
   Menu,
   User,
   LayoutDashboard,
@@ -34,6 +33,8 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '../ui/avatar';
+import logo from '@/assets/images/logo.png';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,14 +60,6 @@ const Navbar = () => {
         >
           <Heart />
         </Button>
-        <Link href="/cart">
-          <Button
-            variant="outline"
-            className="rounded-full p-0 size-10 cursor-pointer"
-          >
-            <ShoppingCart />
-          </Button>
-        </Link>
 
         {user ? (
           <>
@@ -150,7 +143,8 @@ const Navbar = () => {
     <header className="border-b bg-white">
       <div className="max-w-screen-xl px-4 lg:px-6 flex justify-between items-center mx-auto h-16 lg:h-20">
         <Link href="/" className="flex items-center">
-          <span className="text-lg lg:text-xl font-bold">
+          <Image src={logo} alt="Logo" width="30" height="30" />
+          <span className="text-lg lg:text-xl font-bold ms-1">
             SecondHand Market
           </span>
         </Link>

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import logo from '@/assets/icons/logo.svg';
+import logo from '@/assets/images/logo.png';
 import Image from 'next/image';
 import {
   Form,
@@ -66,7 +66,7 @@ const LoginForm = () => {
     <div className="max-w-lg flex-grow bg-white border p-6 lg:p-8 rounded-[12px]">
       <div className="flex items-center space-x-4 border-b mb-4 pb-3">
         <Link href="/">
-          <Image src={logo} alt="Logo" width="80" height="80" />
+          <Image src={logo} alt="Logo" width="50" height="50" />
         </Link>
         <div>
           <h1 className="text-xl font-semibold">Login</h1>
