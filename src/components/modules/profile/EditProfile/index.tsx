@@ -29,13 +29,10 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { cities } from '@/constants/cities';
 import { getSingleUser, updateUser } from '@/services/User';
-import Spinner from '@/components/shared/Spinner';
 
 const EditProfileForm = () => {
   const { user } = useUser();
   const [userInfo, setUserInfo] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -82,13 +79,12 @@ const EditProfileForm = () => {
       getSingleUser(user.userId)
         .then((data) => {
           if (!data || data?.success === false) {
-            setError(data?.message || 'Failed to fetch user data');
+            toast.error(data?.message || 'Failed to fetch user data');
           } else {
             setUserInfo(data.data);
           }
         })
-        .catch(() => setError('Failed to load profile.'))
-        .finally(() => setLoading(false));
+        .catch(() => toast.error('Failed to load profile.'));
     }
   }, [user?.userId]);
 
@@ -138,10 +134,6 @@ const EditProfileForm = () => {
       console.error(error);
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <div className="bg-white rounded-xl flex-grow max-w-3xl p-4 lg:p-5">

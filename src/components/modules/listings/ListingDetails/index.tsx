@@ -7,7 +7,6 @@ import { addOrder } from '@/services/Order';
 import { IListing } from '@/types';
 import { CircleArrowRight, Minus, Plus, Star } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -18,7 +17,6 @@ const ListingDetails = ({ listing }: { listing: IListing }) => {
   const [selectedImage, setSelectedImage] = useState(listing.images[0]);
   const [quantity, setQuantity] = useState<number>(1);
   const [isReadMore, setIsReadMore] = useState<boolean>(true);
-  const router = useRouter();
 
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);

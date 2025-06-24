@@ -80,6 +80,7 @@ const AddListingForm = () => {
         ...data,
         price: parseFloat(data.price),
         userID: user?.userId,
+        email: user?.email,
       };
 
       const res = await addListing(modifiedData);

@@ -22,11 +22,9 @@ const FeaturedListings = async () => {
           </Link>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-          {listings
-            ?.slice(0, 4)
-            ?.map((listing: IListing, index: number) => (
-              <ListingCard key={index} listing={listing} />
-            ))}
+          {listings?.slice(0, 4)?.map((listing: IListing, index: number) => (
+            <ListingCard key={index} listing={listing} />
+          ))}
         </div>
       </div>
     </div>

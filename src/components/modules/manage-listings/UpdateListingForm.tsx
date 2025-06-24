@@ -87,6 +87,7 @@ const UpdateListingForm = ({ listing }: { listing: IListing }) => {
         ...data,
         price: parseFloat(data.price),
         userID: user?.userId,
+        email: user?.email,
       };
 
       const res = await updateListing(listing._id, modifiedData);

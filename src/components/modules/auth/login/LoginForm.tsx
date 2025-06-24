@@ -57,7 +57,7 @@ const LoginForm = () => {
       } else {
         toast.error(res?.message);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
     }
   };

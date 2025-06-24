@@ -1,7 +1,6 @@
-import MyOrder from "@/components/modules/my-order";
+import MyOrder from '@/components/modules/my-order';
 
 const MyOrderPage = () => {
-
   return (
     <div>
       <MyOrder />

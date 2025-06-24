@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '@/assets/icons/logo.svg';
 import facebookSvg from '@/assets/icons/facebook.svg';
 import instagramSvg from '@/assets/icons/Instagram.svg';
 import xSvg from '@/assets/icons/x.svg';

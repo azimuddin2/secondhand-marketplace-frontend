@@ -46,8 +46,8 @@ const ManageOrders = ({ orders, meta }: TOrdersProps) => {
       } else {
         toast.error(res.message);
       }
-    } catch (error) {
-      toast.error('Failed to update status');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update status');
     } finally {
       toast.dismiss(toastId);
     }

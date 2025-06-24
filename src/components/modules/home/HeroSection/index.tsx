@@ -14,7 +14,8 @@ const HeroSection = () => {
         </div>
         <div className="flex-1 text-center lg:text-left">
           <h2 className="lg:text-4xl text-3xl font-bold lg:leading-snug mt-6 lg:mt-0">
-            Don't Miss Out on <br /> These Unbeatable Black <br /> Friday Deals!
+            Don&apos;t Miss Out on <br /> These Unbeatable Black <br /> Friday
+            Deals!
           </h2>
           <p className="text-base my-4 text-gray-700">
             Save big this Black Friday with unbeatable deals on tech, home

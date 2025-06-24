@@ -61,8 +61,11 @@ const Brand = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-3 ">
-          {brandImages.map((item) => (
-            <div className="bg-[#f3f3f3] border-5 border-white rounded-5 p-5 flex items-center">
+          {brandImages?.map((item) => (
+            <div
+              key={item.id}
+              className="bg-[#f3f3f3] border-5 border-white rounded-5 p-5 flex items-center"
+            >
               <Image src={item.image} alt="Brand" className="mx-auto" />
             </div>
           ))}

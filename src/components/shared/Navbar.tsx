@@ -8,7 +8,6 @@ import {
   Menu,
   User,
   LayoutDashboard,
-  Store,
   LogOut,
   SendToBack,
 } from 'lucide-react';
