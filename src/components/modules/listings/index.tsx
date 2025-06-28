@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import ListingBanner from './ListingBanner/ListingBanner';
 
 type TListingsProps = {
   listings: IListing[];
@@ -48,7 +49,8 @@ const AllListings = ({ listings, meta }: TListingsProps) => {
   }, [searchParams]);
 
   return (
-    <div className="my-12">
+    <div className="">
+      <ListingBanner />
       <div className="text-center lg:w-[60%] mx-auto">
         <h1 className="text-xl font-semibold mb-2">All Listing Products</h1>
         <p className="text-sm text-gray-500">
