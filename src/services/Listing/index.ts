@@ -23,10 +23,29 @@ export const addListing = async (data: FieldValues) => {
   }
 };
 
-export const getAllListings = async (page?: string, limit?: string) => {
+export const getAllListings = async (
+  page?: string,
+  limit?: string,
+  query?: { [key: string]: string | string[] | undefined },
+) => {
+  const params = new URLSearchParams();
+
+  if (query?.price) {
+    params.append('minPrice', '0');
+    params.append('maxPrice', query?.price.toString());
+  }
+
+  if (query?.category) {
+    params.append('category', query?.category.toString());
+  }
+
+  if (query?.searchTerm) {
+    params.append('searchTerm', query?.searchTerm.toString());
+  }
+
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/listings?page=${page}&limit=${limit}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings?page=${page}&limit=${limit}&${params}`,
       {
         next: {
           tags: ['LISTING'],

@@ -6,8 +6,10 @@ const AllListingsPage = async ({
 }: {
   searchParams: Promise<{ page: string }>;
 }) => {
+  const query = await searchParams;
+
   const { page } = await searchParams;
-  const { data, meta } = await getAllListings(page, '3');
+  const { data, meta } = await getAllListings(page, '6', query);
 
   return (
     <div className="max-w-screen-xl mx-auto px-3 lg:px-5">
